@@ -5,11 +5,12 @@ using namespace std;
 - They are error handling mechanisms
 - Also to detect error conditions
 - Exceptions get thrown all the way out of what we call "Call Stack"
+- Exceptions can also be thrown from constructors in classes, e.g: when trying to allocate too much memory on a char *
 */
 
 void mightGoWrong() {
     bool error1 = false;
-    bool error2 = true;
+    bool error2 = false;
 
     // As soon as a function throws an error, it exists that function
     if (error1) {
@@ -26,7 +27,6 @@ void usesMightGoWrong() {
 }
 
 int main() {
-
     // try-catch block catches the exception thrown by the program
     // allows to gracefully end the program
     try {
