@@ -1,2 +1,2 @@
 # Udemy---Concepts
-Repo to keep track of exercises on Exceptions (Udemy class)
+Repo to keep track of exercises from Udemy class
