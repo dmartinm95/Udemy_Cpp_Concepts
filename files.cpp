@@ -27,7 +27,7 @@ int main() {
 
     outputFile.open(outputFileName);
 
-    // Writing to a file
+    //// Writing to a file
     if (outputFile.is_open()) {
         for (int i = 0; i < numLines; i++) {
             outputFile << i << ". This is line # " << i << "." << endl;
@@ -38,7 +38,7 @@ int main() {
         cout << "Could not create file: " << outputFileName << endl;
     }
 
-    // Reading from a file
+    //// Reading from a file
     ifstream inFile;
     string inFileName = "text2.txt";
 
@@ -61,5 +61,37 @@ int main() {
         cout << "Cannot open file: " << inFileName << endl;
     }
 
+    //// Parsing text files
+    string filename = "stats.txt";
+    ifstream input;
+
+    input.open(filename, ios::in);
+
+    if (!input.is_open()) {
+        return 1;
+    }
+
+    // Read line by line
+    while (input) {
+        string line;
+        // Pass in a delimeter ':' to read up to that symbol
+        getline(input, line, ':');
+
+        int population;
+
+        input >> population;
+
+        // Read whitespace and discard it
+        input >> ws;
+
+        if (!input) {
+            break;
+        }
+
+        cout << "'" << line << "'"
+             << "--- "
+             << "'" << population << "'" << endl;
+    }
+    input.close();
     return 0;
 }
