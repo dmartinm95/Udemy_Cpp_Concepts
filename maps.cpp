@@ -2,6 +2,28 @@
 #include <map>
 using namespace std;
 
+// Custom objects as map values
+class Person {
+private:
+    string name;
+    int age;
+
+public:
+    Person() : name(""), age(0) {}
+
+    Person(string name, int age) : name(name), age(age) {}
+
+    Person(const Person &other) {
+        cout << "Copy constructor running!" << endl;
+        name = other.name;
+        age = other.age;
+    }
+
+    void print() const {
+        cout << name << ": " << age << endl;
+    }
+};
+
 int main() {
 
     // Maps use key value pairs to store information
@@ -39,6 +61,22 @@ int main() {
     for (map<string, int>::iterator it = ages.begin(); it != ages.end(); it++) {
         pair<string, int> age = *it;
         cout << age.first << ": " << age.second << endl;
+    }
+
+    map<int, Person> people;
+
+    people[0] = Person("Mike", 40);
+    people[1] = Person("Vicky", 30);
+    people[2] = Person("Raj", 20);
+
+    people.insert(make_pair(55, Person("Bob", 45)));
+    people.insert(make_pair(55, Person("Sue", 24)));
+
+    cout << "Using custom objects in maps" << endl;
+
+    for (map<int, Person>::iterator it = people.begin(); it != people.end(); it++) {
+        cout << it->first << " - ";
+        it->second.print();
     }
 
     return 0;
