@@ -9,10 +9,13 @@ private:
     int age;
 
 public:
+    // Default constructor
     Person() : name(""), age(0) {}
 
+    // Constructor with parameters
     Person(string name, int age) : name(name), age(age) {}
 
+    // Copy constructor
     Person(const Person &other) {
         cout << "Copy constructor running!" << endl;
         name = other.name;
@@ -21,6 +24,17 @@ public:
 
     void print() const {
         cout << name << ": " << age << endl;
+    }
+
+    // Overloading operator '<' for our object class
+    // const is used so that both objects are not changed when using this method
+    bool operator<(const Person &other) const {
+
+        if (name == other.name) {
+            return age < other.age;
+        } else {
+            return name < other.name;
+        }
     }
 };
 
@@ -63,6 +77,7 @@ int main() {
         cout << age.first << ": " << age.second << endl;
     }
 
+    // Map using custom object as the value
     map<int, Person> people;
 
     people[0] = Person("Mike", 40);
@@ -77,6 +92,28 @@ int main() {
     for (map<int, Person>::iterator it = people.begin(); it != people.end(); it++) {
         cout << it->first << " - ";
         it->second.print();
+    }
+
+    string test1 = "Mike";
+    string test2 = "Bob";
+
+    bool test = test1 < test2;
+    cout << test << endl;
+
+    // Map using custom objects as the key
+    map<Person, int> people2;
+    people2[Person("Mike", 40)] = 40;
+    people2[Person("Mike", 444)] = 123;
+    people2[Person("Sue", 30)] = 30;
+    people2[Person("Raj", 20)] = 20;
+
+    // Need to create our custom < operator for our class since maps get ordered automatically
+
+    cout << "Using custom objects in keys" << endl;
+
+    for (map<Person, int>::iterator it = people2.begin(); it != people2.end(); it++) {
+        cout << it->second << ": " << flush;
+        it->first.print();
     }
 
     return 0;
