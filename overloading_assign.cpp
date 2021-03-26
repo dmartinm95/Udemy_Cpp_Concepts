@@ -37,10 +37,40 @@ public:
         return *this;
     }
 
-    //
+    friend ostream &operator<<(ostream &out, const Test &test) {
+        out << test.id << ": " << test.name;
+        return out;
+    }
+};
+
+class Person {
+
+    string firstName;
+    string lastName;
+
+public:
+    Person() : firstName(""), lastName("") {}
+    Person(string firstName, string lastName) : firstName(firstName), lastName(lastName) {}
+
+    void print() {
+        cout << firstName << " " << lastName << endl;
+    }
+
+    const Person &operator=(const Person &other) {
+        cout << "Overloaded operator = running" << endl;
+        firstName = other.firstName;
+        lastName = other.lastName;
+        return *this;
+    }
+
+    friend ostream &operator<<(ostream &out, const Person &person) {
+        out << person.firstName << " " << person.lastName;
+        return out;
+    }
 };
 
 int main() {
+    // Example of = operator overloading
     Test test1(10, "Mike");
     test1.print();
 
@@ -53,8 +83,6 @@ int main() {
     Test test3;
 
     // The return object from the = operator should be a reference to a Test object
-    // test3 = test2 = test1;
-
     test3.operator=(test2);
 
     test3.print();
@@ -64,6 +92,34 @@ int main() {
     // Copy initialization, uses copy constructor instead of assignment operator
     Test test4 = test1;
     test4.print();
+
+    cout << endl
+         << endl;
+
+    // Example of << operator overloading
+    // Need to return a reference to ostream object
+    Test test5(1, "Mike");
+    Test test6(20, "Bob");
+    test5.print();
+
+    // Would be nice to be able to do this instead: cout << test5 << endl;
+    cout << test5 << test6 << endl;
+
+    cout << endl
+         << endl;
+
+    Person person1("Mike", "Lee");
+    Person person2("May", "Tree");
+    Person person3("James", "Tang");
+
+    person1.print();
+    person2.print();
+    person3.print();
+
+    person2 = person1;
+    person2.print();
+
+    cout << person1 << " " << person2 << " " << person3 << endl;
 
     return 0;
 }
