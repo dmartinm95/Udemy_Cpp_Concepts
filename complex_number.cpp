@@ -48,6 +48,11 @@ public:
     bool operator!=(const Complex &other) {
         return !(*this == other);
     }
+
+    // Dereference operator overloading to give the conjugate
+    Complex operator*() {
+        return Complex(real, -imaginary);
+    }
 };
 
 // Left bit shift operator overloading
@@ -107,6 +112,11 @@ int main() {
     } else {
         cout << "Equal" << endl;
     }
+
+    // Dereference operator overloading
+    Complex c9(5, 4);
+
+    cout << *c9 + *Complex(10, 1) << endl;
 
     return 0;
 }
