@@ -38,6 +38,16 @@ public:
     double getImaginary() const {
         return imaginary;
     }
+
+    // Equal operator overloading
+    bool operator==(const Complex &other) {
+        return (real == other.real) && (imaginary == other.imaginary);
+    }
+
+    // Not equal operator overloading
+    bool operator!=(const Complex &other) {
+        return !(*this == other);
+    }
 };
 
 // Left bit shift operator overloading
@@ -81,6 +91,22 @@ int main() {
     cout << endl;
 
     cout << 7 + c1 + c2 + 8 + 9 + c5 + c6 << endl;
+
+    // Equality operator overloading
+    Complex c7(3, 2);
+    Complex c8(3, 1);
+
+    if (c7 == c8) {
+        cout << "Equal" << endl;
+    } else {
+        cout << "Not Equal" << endl;
+    }
+
+    if (c7 != c8) {
+        cout << "Not Equal" << endl;
+    } else {
+        cout << "Equal" << endl;
+    }
 
     return 0;
 }
