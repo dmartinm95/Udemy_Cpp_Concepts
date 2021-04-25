@@ -44,5 +44,34 @@ int main() {
     strings.push_back("Two");
     strings.push_back("Three");
 
+    // Initialization in C++ 11
+    int value{5};
+    cout << value << endl;
+
+    string text{"Hello"};
+    cout << text << endl;
+
+    int numbers[]{1, 2, 4};
+    cout << numbers[1] << endl;
+
+    int *pInts = new int[3]{1, 2, 3};
+    cout << pInts[1] << endl;
+    delete pInts;
+
+    int *pSomething = nullptr;
+    cout << pSomething << endl;
+
+    struct {
+        int value;
+        string text;
+
+    } s10{5, "Hi"};
+
+    cout << s10.text << endl;
+
+    vector<string> strings1{"one", "two", "three"};
+
+    cout << strings1[2] << endl;
+
     return 0;
 }
