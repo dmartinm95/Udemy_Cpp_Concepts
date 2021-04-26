@@ -19,6 +19,28 @@ public:
     }
 };
 
+class Test1 {
+    int id{3};
+    string name{"Mike"};
+
+public:
+    Test1() = default;
+
+    Test1(const Test1 &other) = default;
+
+    // To remove copy constructor can use the keword 'delete' instead of 'default'
+    // Test1(const Test1 &other) = delete;
+
+    Test1 &operator=(const Test1 &other) = default;
+
+    Test1(int id) : id(id) {
+    }
+
+    void print() {
+        cout << id << ": " << name << endl;
+    }
+};
+
 int main() {
 
     // Initialization in C++ 98
@@ -90,8 +112,7 @@ int main() {
 
     cout << strings1[2] << endl;
 
-    cout << endl
-         << endl;
+    cout << endl;
 
     // Initializer lists
     vector<int> numbers3{1, 2, 3, 4, 5};
@@ -100,6 +121,15 @@ int main() {
     Test test{"apple", "orange", "banana"};
 
     test.print({"one", "two", "three", "four"});
+
+    cout << endl;
+
+    // Object initialization, default and delete
+    Test1 test1;
+    test1.print();
+
+    Test1 test2(77);
+    test2.print();
 
     return 0;
 }
