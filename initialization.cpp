@@ -1,6 +1,23 @@
+#include <initializer_list>
 #include <iostream>
 #include <vector>
 using namespace std;
+
+class Test {
+
+public:
+    Test(initializer_list<string> texts) {
+        for (auto value : texts) {
+            cout << value << endl;
+        }
+    }
+
+    void print(initializer_list<string> texts) {
+        for (auto value : texts) {
+            cout << value << endl;
+        }
+    }
+};
 
 int main() {
 
@@ -72,6 +89,17 @@ int main() {
     vector<string> strings1{"one", "two", "three"};
 
     cout << strings1[2] << endl;
+
+    cout << endl
+         << endl;
+
+    // Initializer lists
+    vector<int> numbers3{1, 2, 3, 4, 5};
+    cout << numbers3[2] << endl;
+
+    Test test{"apple", "orange", "banana"};
+
+    test.print({"one", "two", "three", "four"});
 
     return 0;
 }
