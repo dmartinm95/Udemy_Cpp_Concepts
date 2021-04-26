@@ -57,5 +57,17 @@ int main() {
 
     cout << multiply(10, 10) << endl;
 
+    int cats = 5;
+
+    // Can make a copy of local variables and update it inside a lambda expression by using the keyword 'mutable'
+    [cats]() mutable {
+        // Can now update the value passed in by value as it is a copy of the local variable
+        cats = 8;
+        cout << cats << endl;
+    }();
+
+    // But the local variable is still unchanged outside the lambda expression
+    cout << cats << endl;
+
     return 0;
 }
