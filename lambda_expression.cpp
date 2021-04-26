@@ -18,6 +18,28 @@ void runAdd(double (*add)(double a, double b, double c)) {
     cout << add(4.0, 1000.0, 10.0) << endl;
 }
 
+class Test {
+private:
+    int one{1};
+    int two{2};
+
+public:
+    void run() {
+        int three{3};
+        int four{4};
+
+        // Using 'this' keyword will let us capture all instance variables by reference (one and two)
+        auto pLambda = [this, three, four]() {
+            one = 111;
+            cout << one << endl;
+            cout << two << endl;
+            cout << three << endl;
+            cout << four << endl;
+        };
+        pLambda();
+    }
+};
+
 int main() {
 
     // Lambda expression - sort of a function that has no name
@@ -85,6 +107,10 @@ int main() {
         one = 9;
         cout << "HELLO: " << one << ", "
                          << two << ", " << three << endl; }();
+
+    // Capture 'this' with lambdas
+    Test test;
+    test.run();
 
     return 0;
 }
