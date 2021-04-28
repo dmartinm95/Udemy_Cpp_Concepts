@@ -17,10 +17,14 @@ class Sister : public Parent {
 int main() {
     Parent parent;
     Brother brother;
+    Sister sister;
 
     Parent *ppb = &brother;
 
     Brother *pBrother = static_cast<Brother *>(&parent); // This won't work unless you cast it but it is not recommended
+
+    Sister *pbs = reinterpret_cast<Sister *>(ppb);
+    // Using reinterpret_cast has less checking that static_cast, could be error prone as well
 
     Brother *pbb = dynamic_cast<Brother *>(ppb);
     // static_cast is just a compile time thing that will get your code working but may be error prone
