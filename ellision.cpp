@@ -84,14 +84,22 @@ int main() {
     // int *pValue2 = &7; // cannot do this
 
     Test *pTest1 = &test1;
-    // Test *pTest2 = &getTest(); // cannot do this
+    // Test *pTest2 = &getTest(); // Cannot do this
 
-    int *pValue3 = &++value1;
+    int *pValue3 = &++value1; // This works because '++value1' is an lValue
+    // int *pValue4 = &value1++; // Cannot do this, because 'value1++' is an rValue
 
     cout << *pValue3 << endl;
 
     cout << global << endl;
     setGlobal() = 400; // This would be ok, because setGlobal is returning a reference which points to an existing memory location (the global variable) thus is an lValue.
     cout << global << endl;
+
+    // Lvalue References
+    Test &rTest1 = test1;
+    // Test &rTest2 = getTest(); // This would not work because getTest() is rValue
+    const Test &rTest2 = getTest(); // This will work because const lValue references can in fact bind to rRvalues
+
+    // Rvalue References
     return 0;
 }
