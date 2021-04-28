@@ -6,7 +6,7 @@ using namespace std;
 class Test {
 private:
     static const int SIZE = 100;
-    int *m_pBuffer;
+    int *m_pBuffer{nullptr};
 
 public:
     Test() {
@@ -32,6 +32,14 @@ public:
         m_pBuffer = new int[SIZE]{};
 
         memcpy(m_pBuffer, other.m_pBuffer, SIZE * sizeof(int));
+    }
+
+    // Move constructors uses rvalues references
+    Test(Test &&other) {
+        cout << "Move Constructor" << endl;
+        // Cannot be const because it has to change other
+        m_pBuffer = other.m_pBuffer;
+        other.m_pBuffer = nullptr;
     }
 
     Test &operator=(const Test &other) {
