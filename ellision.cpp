@@ -65,6 +65,14 @@ int &setGlobal() {
     return global;
 }
 
+void check(const Test &value) {
+    cout << "lValue function!" << endl;
+}
+
+void check(Test &&value) {
+    cout << "rValue function!" << endl;
+}
+
 int main() {
 
     // C++ can do something called "return value optimization" which involves eliding or getting rid of extra copies of objects
@@ -101,5 +109,10 @@ int main() {
     const Test &rTest2 = getTest(); // This will work because const lValue references can in fact bind to rRvalues
 
     // Rvalue References
+    Test &&rTest3 = Test(); // We can bind rValue references (labeled by '&&') to rValues
+    check(test1);
+    check(getTest());
+    check(Test());
+
     return 0;
 }
