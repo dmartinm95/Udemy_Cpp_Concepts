@@ -50,6 +50,16 @@ public:
         return *this;
     }
 
+    // Move assignment operator
+    Test &operator=(Test &&other) {
+        cout << "Move assignment operator" << endl;
+        delete[] m_pBuffer;
+        m_pBuffer = other.m_pBuffer;
+        other.m_pBuffer = nullptr;
+
+        return *this;
+    }
+
     ~Test() {
         cout << "Destructor" << endl;
         delete[] m_pBuffer;
@@ -121,6 +131,10 @@ int main() {
     check(test1);
     check(getTest());
     check(Test());
+
+    // Using our move assignment operator
+    Test test4;
+    test4 = getTest();
 
     return 0;
 }
