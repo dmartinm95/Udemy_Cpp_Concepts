@@ -59,6 +59,12 @@ Test getTest() {
     return Test();
 }
 
+int global = 100;
+
+int &setGlobal() {
+    return global;
+}
+
 int main() {
 
     // C++ can do something called "return value optimization" which involves eliding or getting rid of extra copies of objects
@@ -69,5 +75,23 @@ int main() {
     vector<Test> vec;
     vec.push_back(Test());
 
+    int value1 = 7;
+
+    // lValue is anything you can take the address of (you cannot take the address value of an rValue)
+    // In C++ an lValue is something that points to a specific memory location
+    // On the other hand, a rValue is something that doesn't point anywhere (they are temporary and short lived)
+    int *pValue1 = &value1;
+    // int *pValue2 = &7; // cannot do this
+
+    Test *pTest1 = &test1;
+    // Test *pTest2 = &getTest(); // cannot do this
+
+    int *pValue3 = &++value1;
+
+    cout << *pValue3 << endl;
+
+    cout << global << endl;
+    setGlobal() = 400; // This would be ok, because setGlobal is returning a reference which points to an existing memory location (the global variable) thus is an lValue.
+    cout << global << endl;
     return 0;
 }
