@@ -1,0 +1,49 @@
+#include <iostream>
+#include <memory>
+using namespace std;
+
+// Unique pointers (smart pointers) behave like a normal pointer but handles the deallocation of memory for you
+// It will return memory once the variable goes out of scope
+
+class Test {
+public:
+    Test() {
+        cout << "Created" << endl;
+    }
+    void greet() {
+        cout << "Hello" << endl;
+    }
+    ~Test() {
+        cout << "Destroyed" << endl;
+    }
+};
+
+class Temp {
+
+private:
+    unique_ptr<Test[]> pTest;
+
+public:
+    Temp() : pTest(new Test[2]) {
+    }
+};
+
+int main() {
+
+    // auto_ptr works in the same way but it is deprecated (replaced by unique_ptr in C++11)
+    unique_ptr<Test[]> pTest(new Test[2]);
+
+    pTest[1].greet();
+
+    cout << "Finished" << endl;
+
+    // Entire array of pointers will also get cleaned out once it goes out of scope
+
+    Temp temp;
+
+    Test *pTest1 = new Test;
+
+    unique_ptr<Test> pNumber(pTest1);
+
+    return 0;
+}
