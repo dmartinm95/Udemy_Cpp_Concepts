@@ -5,6 +5,9 @@ using namespace std;
 // Unique pointers (smart pointers) behave like a normal pointer but handles the deallocation of memory for you
 // It will return memory once the variable goes out of scope
 
+// Shared pointers are very similar to unique pointer but they don't delete the memory associated with your objects until all the pointers
+// that point at that object have gone out of scope
+
 class Test {
 public:
     Test() {
@@ -44,6 +47,17 @@ int main() {
     Test *pTest1 = new Test;
 
     unique_ptr<Test> pNumber(pTest1);
+
+    // Using shared pointers
+
+    shared_ptr<Test> pTest3(nullptr);
+
+    {
+        shared_ptr<Test> pTest2 = make_shared<Test>();
+        pTest3 = pTest2;
+    }
+
+    cout << "Finished #2" << endl;
 
     return 0;
 }
