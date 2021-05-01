@@ -5,7 +5,7 @@
 using namespace std;
 
 // Need to avoid extra optimization padding
-#pragma pack(2) // Aligns structure members on 2-byte boundaries
+#pragma pack(push, 2) // Aligns structure members on 2-byte boundaries
 
 namespace caveofprogramming {
 
@@ -22,6 +22,7 @@ struct BitmapFileHeader {
     // How long into the file the actual data begins
     int32_t dataOffset;
 };
+#pragma pack(pop)
 
 } // namespace caveofprogramming
 #endif /* BITMAPFILEHEADER_H_ */
