@@ -1,4 +1,6 @@
 #include "Bitmap.h"
+#include "Mandelbrot.h"
+#include <cstdint>
 #include <iostream>
 using namespace std;
 using namespace caveofprogramming;
@@ -18,15 +20,21 @@ int main() {
     for (int y = 0; y < HEIGHT; y++) {
         for (int x = 0; x < WIDTH; x++) {
             // Want to get xFractal to range between [-1, 1] by using offsets and scaling
-            double xFractal = (x - WIDTH / 2) / (WIDTH / 2.0);
-            double yFractal = (y - HEIGHT / 2) / (HEIGHT / 2.0);
+            double xFractal = (x - WIDTH / 2) * 2.0 / WIDTH;
+            double yFractal = (y - HEIGHT / 2) * 2.0 / HEIGHT;
 
-            if (xFractal < min) {
-                min = xFractal;
+            int iterations = Mandelbrot::getIterations(xFractal, yFractal);
+
+            uint8_t red = (uint8_t)(256 * (double)iterations / Mandelbrot::MAX_ITERATIONS);
+
+            bitmap.setPixel(x, y, red, 0, 0);
+
+            if (red < min) {
+                min = red;
             }
 
-            if (xFractal > max) {
-                max = xFractal;
+            if (red > max) {
+                max = red;
             }
         }
     }
