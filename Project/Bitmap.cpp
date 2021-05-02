@@ -12,6 +12,18 @@ Bitmap::Bitmap(int width, int height) : m_width(width), m_height(height), m_pPix
 }
 
 void Bitmap::setPixel(int x, int y, uint8_t red, uint8_t green, uint8_t blue) {
+    // Get a pointer to a whole memory block that represents the whole screen
+    uint8_t *pPixel = m_pPixels.get();
+
+    // Move the pointer to the correct pixel using pointer arithmetic
+    pPixel += (y * 3) * m_width + (x * 3);
+
+    // Reversed order because the bitmap is in little endian format
+    pPixel[0] = blue;
+    pPixel[1] = green;
+    pPixel[2] = red;
+
+    // 0xFF8833: 33 is the least significant byte, FF is the most significant byte
 }
 
 bool Bitmap::write(string filename) {
