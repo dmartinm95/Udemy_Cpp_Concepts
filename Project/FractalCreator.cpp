@@ -1,6 +1,17 @@
 #include "FractalCreator.h"
 namespace caveofprogramming {
 
+void FractalCreator::run(string name) {
+
+    calculateIterations();
+
+    calculateTotalIterations();
+
+    drawFractal();
+
+    writeBitmap("test.bmp");
+}
+
 FractalCreator::FractalCreator(int width, int height) : m_width(width), m_height(height), m_histogram(new int[Mandelbrot::MAX_ITERATIONS]{}), m_fractal(new int[m_width * m_height]{}), m_bitmap(m_width, m_height), m_zoomList(m_width, m_height) {
     addZoom(Zoom(m_width / 2, m_height / 2, 4.0 / m_width));
 }
@@ -31,6 +42,11 @@ void FractalCreator::calculateTotalIterations() {
 }
 
 void FractalCreator::drawFractal() {
+
+    RGB startColor(0, 0, 20);
+    RGB endColor(255, 128, 74);
+    RGB colorDiff = endColor - startColor;
+
     for (int y = 0; y < m_height; y++) {
         for (int x = 0; x < m_width; x++) {
 
@@ -49,8 +65,9 @@ void FractalCreator::drawFractal() {
                     hue += ((double)m_histogram[i]) / m_total;
                 }
 
-                green = pow(255, hue);
-                // green = hue * 255;
+                red = startColor.r + colorDiff.r * hue;
+                green = startColor.g + colorDiff.g * hue;
+                blue = startColor.b + colorDiff.b * hue;
             }
 
             m_bitmap.setPixel(x, y, red, green, blue);
