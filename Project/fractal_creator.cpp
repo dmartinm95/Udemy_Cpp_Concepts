@@ -20,18 +20,23 @@ int main() {
 
     ZoomList zoomList(WIDTH, HEIGHT);
 
-    zoomList.add(Zoom(WIDTH / 2, HEIGHT / 2, 1));
+    // We can change the scaling to zoom in or out
+    zoomList.add(Zoom(WIDTH / 2, HEIGHT / 2, 4.0 / WIDTH));
+
+    // Can input any point that we want to zoom in at
+    zoomList.add(Zoom(295, HEIGHT - 202, 0.1));
+
+    zoomList.add(Zoom(312, HEIGHT - 304, 0.1));
 
     unique_ptr<int[]> histogram(new int[Mandelbrot::MAX_ITERATIONS]{});
     unique_ptr<int[]> fractal(new int[WIDTH * HEIGHT]{});
 
     for (int y = 0; y < HEIGHT; y++) {
         for (int x = 0; x < WIDTH; x++) {
-            // Want to get xFractal to range between [-1, 1] by using offsets and scaling
-            double xFractal = (x - WIDTH / 2 - 200) * 2.0 / HEIGHT;
-            double yFractal = (y - HEIGHT / 2) * 2.0 / HEIGHT; // making the scaling the same to avoid stretching the image
 
-            int iterations = Mandelbrot::getIterations(xFractal, yFractal);
+            pair<double, double> coords = zoomList.doZoom(x, y);
+
+            int iterations = Mandelbrot::getIterations(coords.first, coords.second);
 
             fractal[y * WIDTH + x] = iterations;
 
