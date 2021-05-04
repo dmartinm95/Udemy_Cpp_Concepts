@@ -1,11 +1,27 @@
 #include "FractalCreator.h"
 namespace caveofprogramming {
 
+void FractalCreator::addRange(double rangeEnd, const RGB &rgb) {
+    m_ranges.push_back(rangeEnd * Mandelbrot::MAX_ITERATIONS);
+    m_colors.push_back(rgb);
+
+    if (m_bGotFirstRange) {
+        m_rangeTotals.push_back(0);
+    }
+    m_bGotFirstRange = true;
+}
+
+void FractalCreator::addZoom(const Zoom &zoom) {
+    m_zoomList.add(zoom);
+}
+
 void FractalCreator::run(string name) {
 
     calculateIterations();
 
     calculateTotalIterations();
+
+    calculateRangeTotals();
 
     drawFractal();
 
@@ -35,6 +51,22 @@ void FractalCreator::calculateIterations() {
     }
 }
 
+void FractalCreator::calculateRangeTotals() {
+
+    int rangeIndex = 0;
+
+    for (int i = 0; i < Mandelbrot::MAX_ITERATIONS; i++) {
+        // For each number of iterations the number of pixels that have that number of iterations
+        int pixels = m_histogram[i];
+
+        if (i >= m_ranges[rangeIndex + 1]) {
+            rangeIndex++;
+        }
+
+        m_rangeTotals[rangeIndex] += pixels;
+    }
+}
+
 void FractalCreator::calculateTotalIterations() {
     for (int i = 0; i < Mandelbrot::MAX_ITERATIONS; i++) {
         m_total += m_histogram[i];
@@ -43,8 +75,8 @@ void FractalCreator::calculateTotalIterations() {
 
 void FractalCreator::drawFractal() {
 
-    RGB startColor(0, 0, 20);
-    RGB endColor(255, 128, 74);
+    RGB startColor(0, 0, 0);
+    RGB endColor(0, 0, 255);
     RGB colorDiff = endColor - startColor;
 
     for (int y = 0; y < m_height; y++) {
@@ -73,10 +105,6 @@ void FractalCreator::drawFractal() {
             m_bitmap.setPixel(x, y, red, green, blue);
         }
     }
-}
-
-void FractalCreator::addZoom(const Zoom &zoom) {
-    m_zoomList.add(zoom);
 }
 
 void FractalCreator::writeBitmap(string name) {

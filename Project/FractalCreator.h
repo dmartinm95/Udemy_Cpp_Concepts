@@ -7,9 +7,11 @@
 #include "Zoom.h"
 #include "ZoomList.h"
 #include <cstdint>
+#include <iostream>
 #include <math.h>
 #include <memory>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -26,14 +28,22 @@ private:
     Bitmap m_bitmap;
     ZoomList m_zoomList;
 
+    vector<int> m_ranges;
+    vector<RGB> m_colors;
+    vector<int> m_rangeTotals;
+
+    bool m_bGotFirstRange{false};
+
 private:
     void calculateIterations();
     void calculateTotalIterations();
+    void calculateRangeTotals();
     void drawFractal();
     void writeBitmap(string name);
 
 public:
     FractalCreator(int width, int height);
+    void addRange(double rangeEnd, const RGB &rgb);
     void addZoom(const Zoom &zoom);
     virtual ~FractalCreator();
     void run(string name);
