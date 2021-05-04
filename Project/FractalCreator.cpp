@@ -51,6 +51,24 @@ void FractalCreator::calculateIterations() {
     }
 }
 
+int FractalCreator::getRange(int iterations) const {
+    int range = 0;
+    for (int i = 1; i < m_ranges.size(); i++) {
+        range = i;
+
+        if (m_ranges[i] > iterations) {
+            break;
+        }
+    }
+
+    range--;
+
+    assert(range > -1);
+    assert(range < m_ranges.size());
+
+    return range;
+}
+
 void FractalCreator::calculateRangeTotals() {
 
     int rangeIndex = 0;
@@ -82,24 +100,35 @@ void FractalCreator::drawFractal() {
     for (int y = 0; y < m_height; y++) {
         for (int x = 0; x < m_width; x++) {
 
+            int iterations = m_fractal[y * m_width + x];
+
+            // Check which color range this pixel is in
+            int range = getRange(iterations);
+
+            int rangeTotal = m_rangeTotals[range];
+            int rangeStart = m_ranges[range];
+
+            RGB &startColor = m_colors[range];
+            RGB &endColor = m_colors[range + 1];
+
+            RGB colorDiff = endColor - startColor;
+
             uint8_t red = 0;
             uint8_t green = 0;
             uint8_t blue = 0;
 
-            int iterations = m_fractal[y * m_width + x];
-
             if (iterations != Mandelbrot::MAX_ITERATIONS) {
 
-                double hue = 0.0;
+                int totalPixels = 0;
 
                 // Changing the color proportional to the number of iterations
-                for (int i = 0; i <= iterations; i++) {
-                    hue += ((double)m_histogram[i]) / m_total;
+                for (int i = rangeStart; i <= iterations; i++) {
+                    totalPixels += m_histogram[i];
                 }
 
-                red = startColor.r + colorDiff.r * hue;
-                green = startColor.g + colorDiff.g * hue;
-                blue = startColor.b + colorDiff.b * hue;
+                red = startColor.r + colorDiff.r * (double)totalPixels / rangeTotal;
+                green = startColor.g + colorDiff.g * (double)totalPixels / rangeTotal;
+                blue = startColor.b + colorDiff.b * (double)totalPixels / rangeTotal;
             }
 
             m_bitmap.setPixel(x, y, red, green, blue);

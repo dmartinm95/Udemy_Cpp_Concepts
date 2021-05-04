@@ -6,6 +6,7 @@
 #include "RGB.h"
 #include "Zoom.h"
 #include "ZoomList.h"
+#include <assert.h>
 #include <cstdint>
 #include <iostream>
 #include <math.h>
@@ -40,6 +41,7 @@ private:
     void calculateRangeTotals();
     void drawFractal();
     void writeBitmap(string name);
+    int getRange(int iterations) const;
 
 public:
     FractalCreator(int width, int height);
